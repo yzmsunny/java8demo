@@ -9,11 +9,7 @@ import java.util.stream.Collectors;
 
 import static com.wangwenjun.java8.CollectorsAction.menu;
 
-/***************************************
- * @author:Alex Wang
- * @Date:2016/10/28 QQ:532500648
- * QQ交流群:286081824
- ***************************************/
+
 public class CollectorsAction2 {
 
     public static void main(String[] args) {
@@ -26,8 +22,10 @@ public class CollectorsAction2 {
         testMapping();
         testMaxBy();
         testMinBy();
+
     }
 
+    /** @desc 指定字段分组并指定为concurrentMap */
     private static void testGroupingByConcurrentWithFunction() {
         System.out.println("testGroupingByConcurrentWithFunction");
 
@@ -36,7 +34,7 @@ public class CollectorsAction2 {
         Optional.ofNullable(collect).ifPresent(System.out::println);
     }
 
-
+    /** @desc 指定字段分组并指定为concurrentMap, 并计算改组指定字段平均值 */
     private static void testGroupingByConcurrentWithFunctionAndCollector() {
         System.out.println("testGroupingByConcurrentWithFunctionAndCollector");
         ConcurrentMap<Dish.Type, Double> collect = menu.stream()
@@ -44,6 +42,7 @@ public class CollectorsAction2 {
         Optional.ofNullable(collect).ifPresent(System.out::println);
     }
 
+    /** @desc 指定字段分组并指定为ConcurrentSkipListMap, 并计算改组指定字段平均值 */
     private static void testGroupingByConcurrentWithFunctionAndSupplierAndCollector() {
         System.out.println("testGroupingByConcurrentWithFunctionAndSupplierAndCollector");
         ConcurrentMap<Dish.Type, Double> collect = menu.stream()
@@ -52,15 +51,24 @@ public class CollectorsAction2 {
         Optional.ofNullable(collect).ifPresent(System.out::println);
     }
 
+    /** @desc joining结果进行连接, 返回String */
     private static void testJoining() {
         System.out.println("testJoining");
         Optional.of(menu.stream().map(Dish::getName).collect(Collectors.joining()))
                 .ifPresent(System.out::println);
     }
 
+    /** @desc joining结果用逗号（，）进行连接,返回String */
     private static void testJoiningWithDelimiter() {
         System.out.println("testJoiningWithDelimiter");
         Optional.of(menu.stream().map(Dish::getName).collect(Collectors.joining(",")))
+                .ifPresent(System.out::println);
+    }
+
+    /** @desc 上面的可以简写成这样 */
+    private static void testMapping() {
+        System.out.println("testMapping");
+        Optional.of(menu.stream().collect(Collectors.mapping(Dish::getName, Collectors.joining(","))))
                 .ifPresent(System.out::println);
     }
 
@@ -70,16 +78,12 @@ public class CollectorsAction2 {
                 .ifPresent(System.out::println);
     }
 
-    private static void testMapping() {
-        System.out.println("testMapping");
-        Optional.of(menu.stream().collect(Collectors.mapping(Dish::getName, Collectors.joining(","))))
-                .ifPresent(System.out::println);
-    }
-
     private static void testMaxBy() {
         System.out.println("testMaxBy");
         menu.stream().collect(Collectors.maxBy(Comparator.comparingInt(Dish::getCalories)))
                 .ifPresent(System.out::println);
+        /** @desc 以下同理 */
+        menu.stream().max(Comparator.comparing(Dish::getCalories)).ifPresent(System.out::println);
     }
 
     private static void testMinBy() {

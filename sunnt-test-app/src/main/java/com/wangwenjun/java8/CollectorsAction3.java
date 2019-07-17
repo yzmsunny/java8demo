@@ -1,10 +1,5 @@
 package com.wangwenjun.java8;
 
-/***************************************
- * @author:Alex Wang
- * @Date:2016/10/29 QQ:532500648
- * QQ交流群:286081824
- ***************************************/
 
 import java.util.Comparator;
 import java.util.List;
@@ -28,13 +23,17 @@ public class CollectorsAction3 {
         testSummarizingInt();
     }
 
+    /** @desc 与groupingBy类似，这个是根据boolean分组 */
     private static void testPartitioningByWithPredicate() {
         System.out.println("testPartitioningByWithPredicate");
         Map<Boolean, List<Dish>> collect = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian));
         Optional.of(collect).ifPresent(System.out::println);
 
-    }
+        Map<Boolean, List<Dish>> collect1 = menu.stream().collect(Collectors.groupingBy(Dish::isVegetarian));
+        System.out.println(collect1);
 
+    }
+    /** @desc 与groupingBy类似，这个是根据boolean分组 ,计算某字段平均值*/
     private static void testPartitioningByWithPredicateAndCollector() {
         System.out.println("testPartitioningByWithPredicateAndCollector");
         Map<Boolean, Double> collect = menu.stream()
@@ -53,6 +52,7 @@ public class CollectorsAction3 {
         ).ifPresent(System.out::println);
     }
 
+    /** @desc 计算总和 */
     private static void testReducingBinaryOperatorAndIdentiy() {
         System.out.println("testReducingBinaryOperatorAndIdentiy");
         Integer result = menu.stream()
@@ -60,6 +60,7 @@ public class CollectorsAction3 {
         System.out.println(result);
     }
 
+    /** @desc 根据某字段汇总：{count=9, sum=4200.000000, min=120.000000, average=466.666667, max=800.000000} */
     private static void testReducingBinaryOperatorAndIdentiyAndFunction() {
         System.out.println("testReducingBinaryOperatorAndIdentiyAndFunction");
         Integer result = menu.stream().collect(Collectors.reducing(0, Dish::getCalories, (d1, d2) -> d1 + d2));
@@ -82,5 +83,6 @@ public class CollectorsAction3 {
         System.out.println("testSummarizingLong");
         Optional.of(menu.stream().collect(Collectors.summarizingInt(Dish::getCalories)))
                 .ifPresent(System.out::println);
+
     }
 }

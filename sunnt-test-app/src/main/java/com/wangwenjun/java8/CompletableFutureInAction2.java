@@ -22,7 +22,7 @@ public class CompletableFutureInAction2 {
             return t;
         });
 
-        CompletableFuture.supplyAsync(CompletableFutureInAction1::get, executor)
+        CompletableFuture<Double> doubleCompletableFuture = CompletableFuture.supplyAsync(CompletableFutureInAction1::get, executor)
                 .whenComplete((v, t) -> {
                     Optional.of(v).ifPresent(System.out::println);
                     finished.set(true);

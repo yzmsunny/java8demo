@@ -1,14 +1,12 @@
 package com.wangwenjun.java8;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Description: reduce 可以应用到找最大值、最小值、综合，
+ * @Description: reduce 可以应用到找最大值、最小值、总和，
  * (i,j)->{i是上一次结果，比如i+j=下一循环的i}
  * @Date: 2019/7/5 11:25
  */
@@ -48,9 +46,13 @@ public class CollectorReduce {
         System.out.println(collect2);
         /** @desc 根据指定Type分类,并计算分类的平均calories*/
         Map<Dish.Type, Double> collect3 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.averagingInt(Dish::getCalories)));
-       
+
         /** @desc 根据指定Type分类,并计算分类的最大*/
         Map<Dish.Type, Optional<Dish>> collect4 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.maxBy(Comparator.comparing(Dish::getCalories))));
         System.out.println(collect4);
+
+        /** @desc 计算总和 */
+        Optional<Integer> reduce = menu.stream().map(Dish::getCalories).reduce(Integer::sum);
+        reduce.ifPresent(System.out::println);
     }
 }

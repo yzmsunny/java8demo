@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -29,9 +30,10 @@ public class CompletableFutureInAction3 {
                 .whenComplete((v, t) -> Optional.ofNullable(v).ifPresent(System.out::println));*/
 
         List<Integer> productionIDs = Arrays.asList(1, 2, 3, 4, 5);
+        Function<Integer, CompletableFuture<Double>> integerCompletableFutureFunction = i -> CompletableFuture.supplyAsync(() -> queryProduction(i), executor);
         List<Double> result = productionIDs
                 .stream()
-                .map(i -> CompletableFuture.supplyAsync(() -> queryProduction(i), executor))
+                .map(integerCompletableFutureFunction)
                 .map(future -> future.thenApply(CompletableFutureInAction3::multiply))
                 .map(CompletableFuture::join).collect(toList());
 
