@@ -26,7 +26,7 @@ public class CompletableFutureInAction2 {
                 .whenComplete((v, t) -> {
                     Optional.of(v).ifPresent(System.out::println);
                     finished.set(true);
-                });
+                }).thenApply((e) -> e * 10);
 
         System.out.println("====i am no ---block----");
 /*        while (!finished.get()) {

@@ -16,7 +16,7 @@ public class CompletableFutureInAction5 {
 /*        CompletableFuture.supplyAsync(() -> {
             System.out.println(Thread.currentThread().getName() + " is running.");
             try {
-                Thread.sleep(100);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -26,16 +26,17 @@ public class CompletableFutureInAction5 {
             return 2;
         }), () -> System.out.println("done"));*/
 
-        CompletableFuture.supplyAsync(() -> {
+        //谁执行快就先执行谁的
+/*        CompletableFuture.supplyAsync(() -> {
             System.out.println("I am future 1");
             return CompletableFutureInAction1.get();
         }).applyToEither(CompletableFuture.supplyAsync(() -> {
             System.out.println("I am future 2");
             return CompletableFutureInAction1.get();
         }), v -> v * 10)
-                .thenAccept(System.out::println);
+                .thenAccept(System.out::println);*/
 
-        /*CompletableFuture.supplyAsync(() -> {
+/*        CompletableFuture.supplyAsync(() -> {
             System.out.println("I am future 1");
             return CompletableFutureInAction1.get();
         }).acceptEither(CompletableFuture.supplyAsync(() -> {
@@ -43,7 +44,7 @@ public class CompletableFutureInAction5 {
             return CompletableFutureInAction1.get();
         }), System.out::println);*/
 
-       /* CompletableFuture.supplyAsync(() -> {
+/*        CompletableFuture.supplyAsync(() -> {
             System.out.println("I am future 1");
             return CompletableFutureInAction1.get();
         }).runAfterEither(CompletableFuture.supplyAsync(() -> {
@@ -51,13 +52,13 @@ public class CompletableFutureInAction5 {
             return CompletableFutureInAction1.get();
         }), () -> System.out.println("done."));*/
 
-       /* List<CompletableFuture<Double>> collect = Arrays.asList(1, 2, 3, 4)
+        List<CompletableFuture<Double>> collect = Arrays.asList(1, 2, 3, 4)
                 .stream()
                 .map(i -> CompletableFuture.supplyAsync(CompletableFutureInAction1::get))
                 .collect(toList());
 
-        CompletableFuture.anyOf(collect.toArray(new CompletableFuture[collect.size()]))
-                .thenRun(() -> System.out.println("done"));*/
+        CompletableFuture.allOf(collect.toArray(new CompletableFuture[collect.size()]))
+                .thenAccept(i-> System.out.println(i));
 
 
         Thread.currentThread().join();

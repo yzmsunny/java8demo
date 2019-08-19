@@ -51,6 +51,6 @@ public class CollectorIntroduce {
     }
 
     private static Map<String, List<Apple>> groupByCollector(List<Apple> apples) {
-        return apples.parallelStream().collect(groupingBy(Apple::getColor));
+        return apples.stream().collect(groupingBy(Apple::getColor));
     }
 }

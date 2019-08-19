@@ -1,28 +1,66 @@
-import com.wangwenjun.java8.Apple;
-import com.wangwenjun.java8.Dish;
-import org.joda.time.Instant;
-
-import java.util.Arrays;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class Test {
-    public static List<Dish> menu = Arrays.asList(
-            new Dish("pork", false, 800, Dish.Type.MEAT),
-            new Dish("beef", false, 700, Dish.Type.MEAT),
-            new Dish("chicken", false, 400, Dish.Type.MEAT),
-            new Dish("french fries", true, 530, Dish.Type.OTHER),
-            new Dish("rice", true, 350, Dish.Type.OTHER),
-            new Dish("season fruit", true, 120, Dish.Type.OTHER),
-            new Dish("pizza", true, 550, Dish.Type.OTHER),
-            new Dish("prawns", false, 300, Dish.Type.FISH),
-            new Dish("prawns", false, 333, Dish.Type.FISH),
-            new Dish("salmon", false, 450, Dish.Type.FISH));
-
-    public static void main(String[] args) {
-        Map<Dish.Type, Integer> collect = menu.stream().collect(Collectors.toConcurrentMap(Dish::getType, Dish::getCalories));
-        collect.forEach((k,v)-> System.out.println(k + "|" + v));
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        String ip = "58.248.229.154";
+        String[] split = ip.split(",");
+        if (Objects.nonNull(split) && split.length > 1) {
+            ip = split[0];
+        }
+        System.out.println(ip);
     }
+
+    private static void instant() {
+        Instant now = Instant.now();
+        long l = now.toEpochMilli();
+    }
+
+    private static void testCome() {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            System.out.println("1111" + Thread.currentThread().getName());
+            sleep(13000);
+            String name = Thread.currentThread().getName();
+            System.out.println(name + "inner end");
+            return name;
+        });
+    }
+
+
+    private static void testCompletaleFutrue() throws ExecutionException, InterruptedException {
+
+        System.out.println("start->" + Thread.currentThread().getName());
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            System.out.println("1111" + Thread.currentThread().getName());
+            sleep(13000);
+            String name = Thread.currentThread().getName();
+            System.out.println(name + "inner end");
+            return name;
+        });
+        CompletableFuture<String> future1 = future.thenCombine(CompletableFuture.supplyAsync(() -> {
+            System.out.println("22222-" + Thread.currentThread().getName());
+            sleep(4000);
+            return "2222，";
+        }), (f1, f2) -> f1 + "" + f2);
+        sleep(1000);
+        System.out.println("end->" + Thread.currentThread().getName() + "|||||=");
+        System.out.println("_________" + future1.get());
+        Thread.currentThread().join();
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
+

@@ -1,0 +1,6 @@
+
+.gitignore
+.idea/dataSources.local.xml
+.idea/dataSources/
+sunnt-test-app/target/classes/Test.class
+sunnt-test-app/target/generated-sources/

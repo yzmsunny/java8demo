@@ -34,7 +34,7 @@ public class CompletableFutureInAction1 {
 
     static double get() {
         try {
-            Thread.sleep(RANDOM.nextInt(10000));
+            Thread.sleep(RANDOM.nextInt(3000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
