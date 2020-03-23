@@ -34,7 +34,7 @@ public class CollectorsAction2 {
         Optional.ofNullable(collect).ifPresent(System.out::println);
     }
 
-    /** @desc 指定字段分组并指定为concurrentMap, 并计算改组指定字段平均值 */
+    /** @desc 指定字段分组并指定为concurrentMap, 并计算该组指定字段平均值 */
     private static void testGroupingByConcurrentWithFunctionAndCollector() {
         System.out.println("testGroupingByConcurrentWithFunctionAndCollector");
         ConcurrentMap<Dish.Type, Double> collect = menu.stream()
@@ -42,7 +42,7 @@ public class CollectorsAction2 {
         Optional.ofNullable(collect).ifPresent(System.out::println);
     }
 
-    /** @desc 指定字段分组并指定为ConcurrentSkipListMap, 并计算改组指定字段平均值 */
+    /** @desc 指定字段分组并指定为ConcurrentSkipListMap, 并计算该组指定字段平均值 */
     private static void testGroupingByConcurrentWithFunctionAndSupplierAndCollector() {
         System.out.println("testGroupingByConcurrentWithFunctionAndSupplierAndCollector");
         ConcurrentMap<Dish.Type, Double> collect = menu.stream()
